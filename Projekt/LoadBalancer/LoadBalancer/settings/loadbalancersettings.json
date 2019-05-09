@@ -1,6 +1,7 @@
 {
   "BalancerSettings": {
     "BalancingAlgorithm": "Random",
+    "RoundRobinPerInstance": 3,
     "Instances": [
       {
         "ip": "localhost",
