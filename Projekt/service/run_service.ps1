@@ -1,0 +1,1 @@
+docker run -p 5000:5000 -e INSTANCE='1' -v $PWD/src:/src service
