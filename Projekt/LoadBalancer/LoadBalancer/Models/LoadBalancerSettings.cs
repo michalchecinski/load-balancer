@@ -14,6 +14,10 @@ namespace LoadBalancer.Models
 
         public Instance[] Instances { get; set; }
 
+        public string BalancingAlgorithm { get; set; }
+
+        public int? RoundRobinPerInstance { get; set; }
+
         public LoadBalancerSettings()
         {
             Current = this;

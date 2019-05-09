@@ -29,7 +29,7 @@ namespace LoadBalancer.Middleware
             int port = context.Request.Host.Port ?? (context.Request.IsHttps ? 443 : 80);
             context.Request.Headers["X-Forwarded-Port"] = port.ToString();
 
-            var instance = LoadBalancerSettings.Current.Instances[0];
+            var instance = BalancingAlgorithms.ConnectionCount();
 
             await HandleHttpRequest(context, instance, instance.Ip, Int32.Parse(instance.Port), "http");
         }
