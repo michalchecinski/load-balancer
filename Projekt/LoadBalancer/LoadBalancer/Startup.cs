@@ -51,14 +51,8 @@ namespace LoadBalancer
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Use((context, next) =>
-            {
-                
-                
-                return next();
-            });
+            app.UseBalancer();
 
-                        
         }
     }
 }
