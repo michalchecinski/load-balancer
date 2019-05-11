@@ -1,4 +1,5 @@
-﻿using LoadBalancer.Models;
+﻿using LoadBalancer.BalancingAlgorithms;
+using LoadBalancer.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,6 @@ namespace LoadBalancer.Middleware
     public class BalancingMiddleware
     {
         private const int DefaultBufferSize = 4096;
-
 
         private readonly RequestDelegate _next;
         private readonly HttpClient _httpClient;
@@ -29,7 +29,24 @@ namespace LoadBalancer.Middleware
             int port = context.Request.Host.Port ?? (context.Request.IsHttps ? 443 : 80);
             context.Request.Headers["X-Forwarded-Port"] = port.ToString();
 
-            var instance = BalancingAlgorithms.ConnectionCount();
+            var balancerAlgorithmSetting = LoadBalancerSettings.Current.BalancingAlgorithm.ToLowerInvariant().Replace(" ", "");
+
+            BalancingAlgorithm balancerAlgorithm = null;
+
+            if (balancerAlgorithmSetting == "roundrobin")
+            {
+                balancerAlgorithm = new RoundRobinAlgorithm();
+            }
+            else if (balancerAlgorithmSetting == "random")
+            {
+                balancerAlgorithm = new RandomAlgorithm();
+            }
+            else if (balancerAlgorithmSetting == "connectioncount")
+            {
+                balancerAlgorithm = new ConnectionCountAlgorithm();
+            }
+
+            var instance = balancerAlgorithm.GetInstance();
 
             await HandleHttpRequest(context, instance, instance.Ip, Int32.Parse(instance.Port), "http");
         }
