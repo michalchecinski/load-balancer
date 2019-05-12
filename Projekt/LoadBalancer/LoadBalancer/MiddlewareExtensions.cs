@@ -15,5 +15,11 @@ namespace LoadBalancer
         {
             return builder.UseMiddleware<BalancingMiddleware>();
         }
+
+        public static IApplicationBuilder UseForwarding(
+           this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<ForwardingMiddleware>();
+        }
     }
 }

@@ -52,6 +52,7 @@ namespace LoadBalancer
             }
 
             app.UseBalancer();
+            app.UseForwarding();
 
         }
     }
