@@ -1,5 +1,6 @@
 ﻿using LoadBalancer.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -82,6 +83,8 @@ namespace LoadBalancer.Middleware
 
                     //context.Response.Headers.Remove("transfer-encoding");
                 }
+
+                Logger.Log(context.Request.GetDisplayUrl(), requestMessage.Method.Method, destination, uriString, context.Response.StatusCode);
             }
         }
 
