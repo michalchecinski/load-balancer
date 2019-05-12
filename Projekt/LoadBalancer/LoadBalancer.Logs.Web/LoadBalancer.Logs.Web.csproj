@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -17,7 +17,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\LoadBalancer.Logs\LoadBalancer.Logs.csproj" />
+    <ProjectReference Include="..\LoadBalancer\LoadBalancer.csproj" />
   </ItemGroup>
 
 </Project>

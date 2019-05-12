@@ -9,11 +9,16 @@ namespace LoadBalancer
 {
     public class Logger
     {
-        private static List<LoggingEntity> loggingEntities = new List<LoggingEntity>();
+        private static List<LoggingEntity> logs = new List<LoggingEntity>();
+
+        public static List<LoggingEntity> GetLogs()
+        {
+            return logs;
+        }
 
         public static void Log(LoggingEntity loggingEntity)
         {
-            loggingEntities.Add(loggingEntity);
+            logs.Add(loggingEntity);
         }
 
         public static void Log(string requestUrl, string method, Instance instance, string requestToInstanceUrl, int responseStatusCode)

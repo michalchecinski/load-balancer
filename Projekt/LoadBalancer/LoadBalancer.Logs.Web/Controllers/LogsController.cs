@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using LoadBalancer.Logs;
 
 namespace LoadBalancer.Logs.Web.Controllers
 {
@@ -11,7 +10,7 @@ namespace LoadBalancer.Logs.Web.Controllers
     {
         public IActionResult Index()
         {
-            return View(Logger.instance.GetLogs());
+            return View(Logger.GetLogs());
         }
     }
 }
