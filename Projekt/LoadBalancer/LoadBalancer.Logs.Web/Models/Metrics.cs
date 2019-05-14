@@ -13,7 +13,7 @@ namespace LoadBalancer.Logs.Web.Models
         public DateTime ToDateTime { get; set; }
 
         [Display(Name = "Server error code (5XX) percentage")]
-        public int FiveHundredPercent { get; set; }
+        public double FiveHundredPercent { get; set; }
 
         [Display(Name = "Server error code (5XX) count")]
         public int FiveHundredCount { get; set; }
@@ -25,12 +25,12 @@ namespace LoadBalancer.Logs.Web.Models
         public int SuccessCount { get; set; }
 
         [Display(Name = "Success status code (2XX) percentage")]
-        public int SuccessPercent { get; set; }
+        public double SuccessPercent { get; set; }
 
         [Display(Name = "Not found code (404) count")]
         public int NotFoundCount { get; set; }
 
         [Display(Name = "Not found code (404) percent")]
-        public int NotFoundPercent { get; set; }
+        public double NotFoundPercent { get; set; }
     }
 }

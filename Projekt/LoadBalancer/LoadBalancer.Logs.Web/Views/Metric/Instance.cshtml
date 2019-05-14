@@ -21,10 +21,16 @@
                 @Html.DisplayFor(model => item.Instance)
             </dd>
             <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.RequestCount)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.RequestCount)
+            </dd>
+            <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => item.RequestPercentage)
             </dt>
             <dd class="col-sm-4">
-                @Html.DisplayFor(model => item.RequestPercentage)
+                @Html.DisplayFor(model => item.RequestPercentage)%
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => item.FromDateTime)
@@ -49,12 +55,6 @@
             </dt>
             <dd class="col-sm-4">
                 @Html.DisplayFor(model => item.FiveHundredCount)%
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => item.RequestCount)
-            </dt>
-            <dd class="col-sm-4">
-                @Html.DisplayFor(model => item.RequestCount)%
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => item.SuccessCount)

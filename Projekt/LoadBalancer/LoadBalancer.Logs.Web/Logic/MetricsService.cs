@@ -41,13 +41,13 @@ namespace LoadBalancer.Logs.Web.Logic
 
             foreach (var instance in instances)
             {
-                var instanceLogs = logs.Where(x => x.Instance == instance)
-                                       .Where(x => x.Time >= fromDateTime && x.Time <= toDateTime)
-                                       .ToList();
+                var timeLogs = logs.Where(x => x.Time >= fromDateTime && x.Time <= toDateTime);
+                var instanceLogs = timeLogs.Where(x => x.Instance.Equals(instance))
+                                           .ToList();
 
                 InstanceMetrics metrics = mapper.Map<InstanceMetrics>(CountMetrics(instanceLogs, fromDateTime, toDateTime));
                 metrics.Instance = instance;
-                metrics.RequestPercentage = metrics.RequestCount / logs.Count() * 100;
+                metrics.RequestPercentage = (double) metrics.RequestCount / timeLogs.Count() * 100;
 
                 yield return metrics;
             }

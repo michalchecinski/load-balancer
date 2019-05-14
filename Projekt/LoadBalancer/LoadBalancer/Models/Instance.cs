@@ -43,5 +43,28 @@ namespace LoadBalancer.Models
 
             return (Ip == instance.Ip) && (Port == instance.Port);
         }
+
+        public bool Equals(Instance obj)
+        {
+            // If parameter is null, return false.
+            if (Object.ReferenceEquals(obj, null))
+            {
+                return false;
+            }
+
+            // Optimization for a common success case.
+            if (Object.ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            // If run-time types are not exactly the same, return false.
+            if (this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return (Ip == obj.Ip) && (Port == obj.Port);
+        }
     }
 }

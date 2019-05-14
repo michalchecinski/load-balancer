@@ -13,6 +13,6 @@ namespace LoadBalancer.Logs.Web.Models
         public Instance Instance { get; set; }
 
         [Display(Name = "Request percentage")]
-        public int RequestPercentage { get; set; }
+        public double RequestPercentage { get; set; }
     }
 }
