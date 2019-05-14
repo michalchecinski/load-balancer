@@ -22,9 +22,19 @@ namespace LoadBalancer.Models
             ResponseStatusCode = responseStatusCode;
         }
 
+        public LoggingEntity(DateTime time, string requestUrl, string method, Instance instance, string requestToInstanceUrl, int responseStatusCode)
+        {
+            Time = time;
+            RequestUrl = requestUrl;
+            Method = method;
+            Instance = instance;
+            RequestToInstanceUrl = requestToInstanceUrl;
+            ResponseStatusCode = responseStatusCode;
+        }
+
         public override string ToString()
         {
-            return $"{Time} {RequestUrl} {Method} {Instance.Ip}:{Instance.Port} {RequestToInstanceUrl} {ResponseStatusCode}";
+            return $"{Time} {RequestUrl} {Method} {Instance} {RequestToInstanceUrl} {ResponseStatusCode}";
         }
     }
 }
