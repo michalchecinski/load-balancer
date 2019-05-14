@@ -34,14 +34,13 @@ namespace LoadBalancer.Models
                 return false;
             }
 
-            // If parameter cannot be cast to Point return false.
+
             Instance instance = obj as Instance;
             if ((System.Object)instance == null)
             {
                 return false;
             }
 
-            // Return true if the fields match:
             return (Ip == instance.Ip) && (Port == instance.Port);
         }
     }
