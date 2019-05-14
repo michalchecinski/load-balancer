@@ -1,0 +1,73 @@
+﻿@model LoadBalancer.Logs.Web.Models.Metrics
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div>
+    <h4>Metrics</h4>
+    @Html.ActionLink("See metrics per instance", "Instance", null, new { @class = "btn btn-primary" })
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.FromDateTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FromDateTime)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ToDateTime)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ToDateTime)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.FiveHundredPercent)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FiveHundredPercent) %
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.FiveHundredCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FiveHundredCount)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.RequestCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RequestCount)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.SuccessCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SuccessCount)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.SuccessPercent)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SuccessPercent) %
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.NotFoundCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NotFoundCount)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.NotFoundPercent)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NotFoundPercent) %
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

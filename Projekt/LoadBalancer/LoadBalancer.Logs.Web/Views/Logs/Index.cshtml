@@ -1,0 +1,50 @@
+﻿@model IEnumerable<LoadBalancer.Models.LoggingEntity>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Method)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestToInstanceUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResponseStatusCode)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Method)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestToInstanceUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResponseStatusCode)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

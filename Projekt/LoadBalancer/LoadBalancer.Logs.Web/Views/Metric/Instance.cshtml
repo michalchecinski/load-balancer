@@ -1,0 +1,85 @@
+﻿@model IEnumerable<LoadBalancer.Logs.Web.Models.InstanceMetrics>
+
+@{
+    ViewData["Title"] = "Instance";
+}
+
+<h1>Instance</h1>
+
+<div>
+    <h4>Instance Metrics</h4>
+    <hr />
+    @Html.ActionLink("See metrics for all instances", "Index", null, new { @class = "btn btn-primary" })
+    <hr />
+    @foreach (LoadBalancer.Logs.Web.Models.InstanceMetrics item in Model)
+    {
+        <dl class="row border">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.Instance)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.Instance)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.RequestPercentage)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.RequestPercentage)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.FromDateTime)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.FromDateTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.ToDateTime)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.ToDateTime)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.FiveHundredPercent)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.FiveHundredPercent)%
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.FiveHundredCount)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.FiveHundredCount)%
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.RequestCount)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.RequestCount)%
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.SuccessCount)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.SuccessCount)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.SuccessPercent)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.SuccessPercent)%
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.NotFoundCount)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.NotFoundCount)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.NotFoundPercent)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => item.NotFoundPercent)%
+            </dd>
+        </dl>
+    }
+</div>
