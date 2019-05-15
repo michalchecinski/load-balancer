@@ -18,11 +18,11 @@ namespace LoadBalancer.Logs.Web.Logic
             var metrics = new Metrics();
             metrics.RequestCount = timeLogs.Count();
             metrics.SuccessCount = timeLogs.Count(x => x.ResponseStatusCode >= 200 && x.ResponseStatusCode <= 299);
-            metrics.SuccessPercent = metrics.RequestCount == 0 ? 0 : metrics.SuccessCount / metrics.RequestCount * 100;
+            metrics.SuccessPercent = metrics.RequestCount == 0 ? 0 : Math.Round( (double) metrics.SuccessCount / metrics.RequestCount * 100, 2);
             metrics.NotFoundCount = timeLogs.Count(x => x.ResponseStatusCode == 404);
-            metrics.NotFoundPercent = metrics.RequestCount == 0 ? 0 : metrics.NotFoundCount / metrics.RequestCount * 100;
+            metrics.NotFoundPercent = metrics.RequestCount == 0 ? 0 : Math.Round((double)metrics.NotFoundCount / metrics.RequestCount * 100, 2);
             metrics.FiveHundredCount = timeLogs.Count(x => x.ResponseStatusCode >= 500 && x.ResponseStatusCode <= 599);
-            metrics.FiveHundredPercent = metrics.RequestCount == 0 ? 0 : metrics.FiveHundredCount / metrics.RequestCount * 100;
+            metrics.FiveHundredPercent = metrics.RequestCount == 0 ? 0 : Math.Round((double)metrics.FiveHundredCount / metrics.RequestCount * 100, 2);
             metrics.FromDateTime = fromDateTime;
             metrics.ToDateTime = toDateTime;
             return metrics;
@@ -39,15 +39,16 @@ namespace LoadBalancer.Logs.Web.Logic
 
             var instanceMetricsList = new List<InstanceMetrics>();
 
+            var timeLogs = logs.Where(x => x.Time >= fromDateTime && x.Time <= toDateTime);
+
             foreach (var instance in instances)
-            {
-                var timeLogs = logs.Where(x => x.Time >= fromDateTime && x.Time <= toDateTime);
+            {                
                 var instanceLogs = timeLogs.Where(x => x.Instance.Equals(instance))
                                            .ToList();
 
                 InstanceMetrics metrics = mapper.Map<InstanceMetrics>(CountMetrics(instanceLogs, fromDateTime, toDateTime));
                 metrics.Instance = instance;
-                metrics.RequestPercentage = (double) metrics.RequestCount / timeLogs.Count() * 100;
+                metrics.RequestPercentage = timeLogs.Count() == 0 ? 0 : Math.Round((double)metrics.RequestCount / timeLogs.Count() * 100, 2);
 
                 yield return metrics;
             }

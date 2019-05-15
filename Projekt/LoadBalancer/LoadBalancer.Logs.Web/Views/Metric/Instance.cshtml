@@ -4,15 +4,45 @@
     ViewData["Title"] = "Instance";
 }
 
-<h1>Instance</h1>
+<div class="row">
+    <div class="col">
+        <h1>Metrics per instance</h1>
+    </div>
+    <div class="col">
+        @Html.ActionLink("Metrics for all instances", "Index", null, new { @class = "btn btn-primary btn-xs" })
+            </div>
+    </div>
 
 <div>
-    <h4>Instance Metrics</h4>
+    @Html.ActionLink("Last 1h", "GetLastInstanceHours", new { hours = 1 }, new { @class = "btn btn-primary btn-xs" })
+    @Html.ActionLink("Last 24h", "GetLastInstanceHours", new { hours = 24 }, new { @class = "btn btn-primary btn-xs" })
+    @Html.ActionLink("Last 7 days", "GetLastInstanceDays", new { days = 7 }, new { @class = "btn btn-primary btn-xs" })
+    @Html.ActionLink("Last 30 days", "GetLastInstanceDays", new { days = 30 }, new { @class = "btn btn-primary btn-xs" })
+
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.FromDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstOrDefault().FromDateTime)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ToDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstOrDefault().ToDateTime)
+        </dd>
+    </dl>
+
     <hr />
-    @Html.ActionLink("See metrics for all instances", "Index", null, new { @class = "btn btn-primary" })
-    <hr />
+
+</div>
+
+<div>
     @foreach (LoadBalancer.Logs.Web.Models.InstanceMetrics item in Model)
     {
+        <h4>@item.Instance.ToString() Metrics</h4>
+        <hr />
         <dl class="row border">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => item.Instance)
@@ -31,18 +61,6 @@
             </dt>
             <dd class="col-sm-4">
                 @Html.DisplayFor(model => item.RequestPercentage)%
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => item.FromDateTime)
-            </dt>
-            <dd class="col-sm-4">
-                @Html.DisplayFor(model => item.FromDateTime)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => item.ToDateTime)
-            </dt>
-            <dd class="col-sm-4">
-                @Html.DisplayFor(model => item.ToDateTime)
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => item.FiveHundredPercent)

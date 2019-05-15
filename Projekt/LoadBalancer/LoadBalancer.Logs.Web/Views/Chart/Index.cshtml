@@ -5,3 +5,26 @@
 
 <h1>Charts</h1>
 
+<div>
+
+    @Html.ActionLink("Last 1h", "GetLastHours", new { hours = 1 }, new { @class = "btn btn-primary btn-xs" })
+    @Html.ActionLink("Last 24h", "GetLastHours", new { hours = 24 }, new { @class = "btn btn-primary btn-xs" })
+    @Html.ActionLink("Last 7 days", "GetLastDays", new { days = 7 }, new { @class = "btn btn-primary btn-xs" })
+    @Html.ActionLink("Last 30 days", "GetLastDays", new { days = 30 }, new { @class = "btn btn-primary btn-xs" })
+
+    @*<dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.FromDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FromDateTime)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.ToDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ToDateTime)
+        </dd>
+    </dl>*@
+    <hr />
+</div>

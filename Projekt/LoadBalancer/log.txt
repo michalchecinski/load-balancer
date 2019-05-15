@@ -79,3 +79,6 @@
 14.05.2019 20:22:28 https://localhost:8080/ GET localhost:5001 http://localhost:5001/ 200
 14.05.2019 20:24:04 https://localhost:8080/ GET localhost:5000 http://localhost:5000/ 200
 14.05.2019 20:26:20 https://localhost:8080/ GET localhost:5000 http://localhost:5000/ 200
+14.05.2019 20:43:30 https://localhost:8080/ GET localhost:5000 http://localhost:5000/ 200
+14.05.2019 20:46:48 https://localhost:8080/ GET localhost:5001 http://localhost:5001/ 200
+14.05.2019 20:46:56 https://localhost:8080/favicon.ico GET localhost:5001 http://localhost:5001/favicon.ico 404
