@@ -30,8 +30,9 @@ namespace LoadBalancer.Logs.Web.Controllers
             model.FromTime = now.AddMinutes(-minutes);
             model.ToTime = now;
             model.ChartDataModels = new List<Metrics>();
-
-            for (int i = minutes; i >= 0; i--)
+            model.ChartType = ChartType.Time;
+            int sub = minutes >= 30 ? 5 : 1; 
+            for (int i = minutes; i >= 0; i-=sub)
             {
                 var metrics = MetricsService.CountMetrics(logs, now.AddMinutes(-i), now.AddMinutes(-i).AddSeconds(-now.Second).AddSeconds(59));
                 model.ChartDataModels.Add(metrics);
@@ -43,6 +44,10 @@ namespace LoadBalancer.Logs.Web.Controllers
         [HttpGet]
         public IActionResult GetLastHours([FromQuery] int hours)
         {
+            if (hours == 1)
+            {
+                return GetLastMinutes(60);
+            }
             if (hours > 24)
             {
                 throw new ArgumentException();
@@ -50,11 +55,13 @@ namespace LoadBalancer.Logs.Web.Controllers
 
             var logs = Logger.GetLogs();
             var now = DateTime.UtcNow.AddSeconds(-DateTime.UtcNow.Second);
+            now = now.AddMinutes(-now.Minute);
 
             var model = new ChartViewModel();
             model.FromTime = now.AddHours(-hours);
-            model.ToTime = now;
+            model.ToTime = now.AddHours(1);
             model.ChartDataModels = new List<Metrics>();
+            model.ChartType = ChartType.Hour;
 
             for (int i = hours; i >= 0; i--)
             {
@@ -68,6 +75,10 @@ namespace LoadBalancer.Logs.Web.Controllers
         [HttpGet]
         public IActionResult GetLastDays([FromQuery] int days)
         {
+            if (days == 1)
+            {
+                return GetLastHours(24);
+            }
             var logs = Logger.GetLogs();
             var now = DateTime.UtcNow.AddSeconds(-DateTime.UtcNow.Second);
 
@@ -75,6 +86,7 @@ namespace LoadBalancer.Logs.Web.Controllers
             model.FromTime = now.AddDays(-days);
             model.ToTime = now;
             model.ChartDataModels = new List<Metrics>();
+            model.ChartType = ChartType.Date;
 
             for (int i = days; i >= 0; i--)
             {
