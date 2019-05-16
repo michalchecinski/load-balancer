@@ -75,6 +75,10 @@ namespace LoadBalancer.Logs.Web.Controllers
         [HttpGet]
         public IActionResult GetLastDays([FromQuery] int days)
         {
+            if (days == 1)
+            {
+                return GetLastHours(24);
+            }
             var logs = Logger.GetLogs();
             var now = DateTime.UtcNow.AddSeconds(-DateTime.UtcNow.Second);
 
