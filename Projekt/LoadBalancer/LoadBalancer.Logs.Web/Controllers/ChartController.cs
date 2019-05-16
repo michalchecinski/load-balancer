@@ -86,6 +86,7 @@ namespace LoadBalancer.Logs.Web.Controllers
             model.FromTime = now.AddDays(-days);
             model.ToTime = now;
             model.ChartDataModels = new List<Metrics>();
+            model.ChartType = ChartType.Date;
 
             for (int i = days; i >= 0; i--)
             {
