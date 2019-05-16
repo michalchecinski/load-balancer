@@ -44,6 +44,10 @@ namespace LoadBalancer.Logs.Web.Controllers
         [HttpGet]
         public IActionResult GetLastHours([FromQuery] int hours)
         {
+            if (hours == 1)
+            {
+                return GetLastMinutes(60);
+            }
             if (hours > 24)
             {
                 throw new ArgumentException();
