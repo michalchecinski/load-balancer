@@ -30,8 +30,9 @@ namespace LoadBalancer.Logs.Web.Controllers
             model.FromTime = now.AddMinutes(-minutes);
             model.ToTime = now;
             model.ChartDataModels = new List<Metrics>();
-
-            for (int i = minutes; i >= 0; i--)
+            model.ChartType = ChartType.Time;
+            int sub = minutes >= 30 ? 5 : 1; 
+            for (int i = minutes; i >= 0; i-=sub)
             {
                 var metrics = MetricsService.CountMetrics(logs, now.AddMinutes(-i), now.AddMinutes(-i).AddSeconds(-now.Second).AddSeconds(59));
                 model.ChartDataModels.Add(metrics);
