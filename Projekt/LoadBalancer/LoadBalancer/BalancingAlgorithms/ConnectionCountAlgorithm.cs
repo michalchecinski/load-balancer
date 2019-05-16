@@ -13,7 +13,10 @@ namespace LoadBalancer.BalancingAlgorithms
 
         public ConnectionCountAlgorithm()
         {
-            SetInstancesUsageToZero();
+            if(instanceUsage.Count() == 0)
+            {
+                SetInstancesUsageToZero();
+            }            
         }
 
         public override Instance GetInstance()
