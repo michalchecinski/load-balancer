@@ -107,7 +107,7 @@
                 scales: {
                 yAxes: [{
                     ticks: {
-                        min: 0,
+                    min: 0,
                             beginAtZero: true
                         },
                         gridLines: {
@@ -125,7 +125,10 @@
                     }]
                 }
             };
-        Chart.defaults.global.defaultFontColor = 'black';
+            if ("@ChartNames[i].ToLower().Contains("percent").ToString()" == "True") {
+                options.scales.yAxes[0].ticks.max = 100;
+            }            
+            Chart.defaults.global.defaultFontColor = 'black';
         Chart.defaults.global.defaultFontSize = 16;
             var myChart = new  Chart(ctx, {
 
