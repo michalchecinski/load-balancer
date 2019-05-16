@@ -1,7 +1,50 @@
-﻿@model ChartViewModel
+﻿@using System.ComponentModel.DataAnnotations;
+
+@model ChartViewModel
 @{
-    var XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartDataModels.Select(x => x.FromDateTime.ToShortTimeString()).ToList());
-    var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartDataModels.Select(x => x.RequestCount).ToList());
+    var colors = new List<string>
+{
+        "rgba(244, 65, 65)",
+        "rgb(244, 65, 65)",
+        "rgb(244, 187, 65)",
+        "rgb(223, 65, 244)",
+        "rgb(244, 65, 127)",
+        "rgb(73, 73, 73)",
+        "rgb(219, 15, 15)",
+        "rgb(86, 122, 8)",
+        "rgb(8, 17, 119)",
+        "rgb(8, 119, 117)",
+        "rgb(8, 119, 19)"
+    };
+    string XLabels = string.Empty;
+
+    if (Model.ChartType == ChartType.Time)
+    {
+        XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartDataModels.Select(x => x.FromDateTime.ToShortTimeString()).ToList());
+    }
+    else if (Model.ChartType == ChartType.Date)
+    {
+        XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartDataModels.Select(x => x.FromDateTime.ToShortDateString()).ToList());
+    }
+    else if (Model.ChartType == ChartType.Hour)
+    {
+        XLabels = Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartDataModels.Select(x => x.FromDateTime.Hour).ToList());
+    }
+
+    var YValues = new List<string>();
+    var ChartNames = new List<string>();
+    foreach (var prop in typeof(Metrics).GetProperties())
+    {
+        if (prop.Name.ToLower().Contains("time"))
+        {
+            continue;
+        }
+        var attrib = (DisplayAttribute)Attribute.GetCustomAttribute(prop, typeof(DisplayAttribute));
+        ChartNames.Add(attrib.Name);
+        var vals = Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartDataModels.Select(x => x.GetType().GetProperty(prop.Name).GetValue(x, null)).ToList());
+        YValues.Add(vals);
+    }
+    //var YValues = Newtonsoft.Json.JsonConvert.SerializeObject(Model.ChartDataModels.Select(x => x.RequestCount).ToList());
     ViewData["Title"] = "Chart";
 }
 
@@ -29,86 +72,68 @@
         </dd>
     </dl>
     <hr />
-    <div class="chart-container">
-        <canvas id="chart" style="width:100%; height:500px"></canvas>
-    </div>
+    @for (int i = 0; i < YValues.Count(); i++)
+    {
+        <div class="chart-container">
+            <canvas id="@i" style="width:100%; height:500px"></canvas>
+        </div>
+    }
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-<script type="text/javascript">
+@for (int i = 0; i < YValues.Count(); i++)
+{
+    <script type="text/javascript">
 
         $(function () {
-    var chartName = "chart";
-        var ctx = document.getElementById(chartName).getContext('2d');
-        var data = {
+                    var chartName = "@i";
+                    var ctx = document.getElementById(chartName).getContext('2d');
+                    var data = {
                 labels: @Html.Raw(XLabels),
                 datasets: [{
-                    label: "Departments Chart",
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(255, 0, 0)',
-                        'rgba(0, 255, 0)',
-                        'rgba(0, 0, 255)',
-                        'rgba(192, 192, 192)',
-                        'rgba(255, 255, 0)',
-                        'rgba(255, 0, 255)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(255, 0, 0)',
-                        'rgba(0, 255, 0)',
-                        'rgba(0, 0, 255)',
-                        'rgba(192, 192, 192)',
-                        'rgba(255, 255, 0)',
-                        'rgba(255, 0, 255)'
-                    ],
-                    borderWidth: 1,
-                    data: @Html.Raw(YValues)
+                    label: "@ChartNames[i]",
+                    backgroundColor: '@colors[i]',
+                    borderColor: '@colors[i]',
+                    hoverBorderColor : "#000",
+                    borderWidth: 2,
+                    data: @Html.Raw(YValues[i])
     }]
             };
 
-var options = {
+            var options = {
                 maintainAspectRatio: false,
                 scales: {
-                    yAxes: [{
-                        ticks: {
-                            min: 0,
+                yAxes: [{
+                    ticks: {
+                        min: 0,
                             beginAtZero: true
                         },
                         gridLines: {
-                            display: true,
+                        display: true,
                             color: "rgba(255,99,164,0.2)"
                         }
-}],
+                    }],
                     xAxes: [{
-                        ticks: {
-                            min: 0,
+                    ticks: {
                             beginAtZero: true
                         },
                         gridLines: {
-                            display: false
+                        display: false
                         }
                     }]
                 }
             };
+        Chart.defaults.global.defaultFontColor = 'black';
+        Chart.defaults.global.defaultFontSize = 16;
+            var myChart = new  Chart(ctx, {
 
-       var myChart = new  Chart(ctx, {
-                options: options,
-                data: data,
-                type:'bar'
+                     options: options,
+                     data: data,
+                     type:'bar'
 
             });
         });
-</script>  
+    </script>
+}
