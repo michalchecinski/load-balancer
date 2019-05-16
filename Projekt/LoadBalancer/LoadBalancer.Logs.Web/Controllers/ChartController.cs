@@ -55,11 +55,13 @@ namespace LoadBalancer.Logs.Web.Controllers
 
             var logs = Logger.GetLogs();
             var now = DateTime.UtcNow.AddSeconds(-DateTime.UtcNow.Second);
+            now = now.AddMinutes(-now.Minute);
 
             var model = new ChartViewModel();
             model.FromTime = now.AddHours(-hours);
-            model.ToTime = now;
+            model.ToTime = now.AddHours(1);
             model.ChartDataModels = new List<Metrics>();
+            model.ChartType = ChartType.Hour;
 
             for (int i = hours; i >= 0; i--)
             {
