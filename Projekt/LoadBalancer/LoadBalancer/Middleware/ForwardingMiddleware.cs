@@ -55,36 +55,46 @@ namespace LoadBalancer.Middleware
             string uriString = GetUri(context, host, port, scheme);
             requestMessage.RequestUri = new Uri(uriString);
             requestMessage.Method = new HttpMethod(context.Request.Method);
-            using (var responseMessage = await _httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted))
+            try
             {
-                context.Response.StatusCode = (int)responseMessage.StatusCode;
-                foreach (var header in responseMessage.Headers)
+
+
+                using (var responseMessage = await _httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead, context.RequestAborted))
                 {
-                    context.Response.Headers[header.Key] = header.Value.ToArray();
-                }
-
-                foreach (var header in responseMessage.Content.Headers)
-                {
-                    context.Response.Headers[header.Key] = header.Value.ToArray();
-                }
-
-                var buffer = new byte[Int32.Parse(context.Response.Headers["Content-Length"])];
-
-                using (var responseStream = await responseMessage.Content.ReadAsStreamAsync())
-                {
-
-                    int len = 0;
-                    int full = 0;
-                    while ((len = await responseStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                    context.Response.StatusCode = (int)responseMessage.StatusCode;
+                    foreach (var header in responseMessage.Headers)
                     {
-                        await context.Response.Body.WriteAsync(buffer, 0, buffer.Length);
-                        full += buffer.Length;
+                        context.Response.Headers[header.Key] = header.Value.ToArray();
                     }
 
-                    //context.Response.Headers.Remove("transfer-encoding");
-                }
+                    foreach (var header in responseMessage.Content.Headers)
+                    {
+                        context.Response.Headers[header.Key] = header.Value.ToArray();
+                    }
 
-                Logger.Log(context.Request.GetDisplayUrl(), requestMessage.Method.Method, destination, uriString, context.Response.StatusCode);
+                    var buffer = new byte[Int32.Parse(context.Response.Headers["Content-Length"])];
+
+                    using (var responseStream = await responseMessage.Content.ReadAsStreamAsync())
+                    {
+
+                        int len = 0;
+                        int full = 0;
+                        while ((len = await responseStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                        {
+                            await context.Response.Body.WriteAsync(buffer, 0, buffer.Length);
+                            full += buffer.Length;
+                        }
+
+                        //context.Response.Headers.Remove("transfer-encoding");
+                    }
+
+                    Logger.Log(context.Request.GetDisplayUrl(), requestMessage.Method.Method, destination, uriString, context.Response.StatusCode);
+                }
+            }
+            catch (HttpRequestException)
+            {
+                Logger.Log(context.Request.GetDisplayUrl(), requestMessage.Method.Method, destination, uriString, 500);
+                await context.Response.WriteAsync("Target server unavaliable");
             }
         }
 
