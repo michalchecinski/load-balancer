@@ -1,0 +1,22 @@
+language: csharp
+dist: trusty
+mono: none
+dotnet: 2.2.0
+branches:
+  only:
+    - master
+    - develop
+
+env:
+  - PROJECT_DIR=LoadBalancer
+  - PROJECT_DIR=LoadBalancer.Logs.Web
+
+before_install:
+ - cd $PROJECT_DIR
+script:
+  - dotnet restore
+  - dotnet build
+notifications:
+  email:
+    on_success: never
+    on_failure: always
