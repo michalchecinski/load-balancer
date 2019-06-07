@@ -14,8 +14,8 @@ namespace LoadBalancer.Logs.Web.Logic
     {
         public static Metrics CountMetrics(List<LoggingEntity> logs, DateTime fromDateTime, DateTime toDateTime)
         {
-            fromDateTime = fromDateTime.TruncateToWholeMinute();
-            toDateTime = toDateTime.TruncateToWholeMinute();
+            //fromDateTime = fromDateTime.TruncateToWholeMinute();
+            //toDateTime = toDateTime.TruncateToWholeMinute();
             var timeLogs = logs.Where(x => x.Time >= fromDateTime && x.Time <= toDateTime);
 
             var metrics = new Metrics();
