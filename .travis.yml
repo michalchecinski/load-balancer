@@ -1,5 +1,5 @@
 language: csharp
-dist: trusty
+dist: xenial
 mono: none
 dotnet: 2.2.100
 
@@ -17,6 +17,9 @@ before_script:
 script:
   - dotnet restore
   - dotnet build
+global:
+    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+    - DOTNET_CLI_TELEMETRY_OPTOUT=1
 notifications:
   email:
     on_success: never
