@@ -1,7 +1,8 @@
 language: csharp
 dist: trusty
 mono: none
-dotnet: 2.2.0
+dotnet: 2.0.0
+
 branches:
   only:
     - master
@@ -11,8 +12,8 @@ env:
   - PROJECT_DIR=LoadBalancer
   - PROJECT_DIR=LoadBalancer.Logs.Web
 
-before_install:
- - cd $PROJECT_DIR
+before_script:
+ - cd LoadBalancer/$PROJECT_DIR
 script:
   - dotnet restore
   - dotnet build
